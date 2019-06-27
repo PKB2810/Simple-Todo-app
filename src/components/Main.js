@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-function Main({ todoList, addTodo, completedTodo, updateTodo }) {
+function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
   /* constructor(props) {
     super(props);
 
@@ -43,7 +43,12 @@ function Main({ todoList, addTodo, completedTodo, updateTodo }) {
       ? parseInt(localStorage.getItem("count")) + 1
       : 0;
     localStorage.setItem("count", count.toString());
-    const todo = { id: count, task: value, status: PENDING };
+    const todo = {
+      userName: localStorage.getItem("currentUser"),
+      id: count,
+      task: value,
+      status: PENDING
+    };
     if (value.trim() !== "") {
       addTodo(todo);
       setValue("");
@@ -84,6 +89,7 @@ function Main({ todoList, addTodo, completedTodo, updateTodo }) {
           <Row>
             <Col className="offset-3 col-sm-6">
               <ListTodo
+                userName={localStorage.getItem("currentUser")}
                 todo={todoList}
                 changeToComplete={completeTask}
                 textboxChangeHandler={textboxChangeHandler}

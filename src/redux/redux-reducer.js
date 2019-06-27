@@ -1,4 +1,9 @@
-import { ADD_TODO, COMPLETED_TODO, UPDATE_TODO } from "./actionTypes";
+import {
+  ADD_TODO,
+  COMPLETED_TODO,
+  UPDATE_TODO,
+  VERIFY_USER
+} from "./actionTypes";
 import initialState from "./initialState";
 import { COMPLETED } from "../globalConstants";
 
@@ -13,7 +18,10 @@ function reducer(state = initialState.todoList, action) {
 
     case COMPLETED_TODO:
       const currentTodoList = state.map(item => {
-        if (item.id === action.payload.id) {
+        if (
+          item.id === action.payload.id &&
+          item.userName == action.payload.userName
+        ) {
           item.status = COMPLETED;
         }
         return item;
@@ -26,7 +34,10 @@ function reducer(state = initialState.todoList, action) {
 
     case UPDATE_TODO:
       const updatedTodoList = state.map(item => {
-        if (item.id === action.payload.task.id) {
+        if (
+          item.id === action.payload.task.id &&
+          item.userName == action.payload.userName
+        ) {
           item.task = action.payload.updatedTask;
         }
         return item;
@@ -36,6 +47,22 @@ function reducer(state = initialState.todoList, action) {
       localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
 
       return updatedTodoList;
+    case VERIFY_USER:
+      const userObj = state.userList.filter(
+        user =>
+          user.userName == action.payload.userName &&
+          user.password == action.payload.password
+      )[0];
+      if (userObj) {
+        return {
+          ...state,
+          currentUser: {
+            userName: userObj.userName,
+            password: userObj.password
+          }
+        };
+      }
+      return state;
 
     default:
       return state;

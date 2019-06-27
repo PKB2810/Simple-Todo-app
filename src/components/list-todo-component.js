@@ -31,6 +31,7 @@ class EditTask extends React.Component {
           if (e.key === "Enter") {
             if (this.state.value.trim() === "") {
               this.setState({ value: this.props.task.task }, () => {
+                //since setState() is async we call toggleTexbox after value is assigned
                 this.props.toggleTextbox();
               });
             } else {
@@ -50,7 +51,10 @@ class ListTodo extends Component {
 
   render() {
     if (Array.isArray(this.props.todo)) {
-      const list = this.props.todo.filter(item => item.status !== COMPLETED);
+      const list = this.props.todo.filter(
+        item =>
+          item.status !== COMPLETED && item.userName === this.props.userName
+      );
       const listOfTodo = list.map((item, index) => {
         return (
           <ListItemTodo
