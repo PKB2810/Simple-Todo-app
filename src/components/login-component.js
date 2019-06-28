@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import { verifyUser } from "../redux/actionCreators";
 
 import { Redirect } from "react-router-dom";
+import DisplayUsers from "./view-user-list-component";
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.todoList.currentUser
+    todoList: state.todoList
   };
 };
 
@@ -33,6 +34,7 @@ class LoginComponent extends React.Component {
   validateUser = e => {
     if (this.state.userName.trim() !== "") {
       localStorage.setItem("currentUser", this.state.userName);
+
       this.setState({ redirect: true });
     }
     /*  e.preventDefault();
@@ -67,7 +69,7 @@ class LoginComponent extends React.Component {
   render() {
     return (
       <div>
-        <h1 id="heading"> Todo App</h1>
+        <h1 className="heading"> Todo App</h1>
         <Form>
           <FormGroup>
             <Row>
@@ -92,6 +94,9 @@ class LoginComponent extends React.Component {
                 >
                   Login
                 </Button>
+              </Col>
+              <Col className=" offset-2 col-12 col-sm-8 pt-1">
+                <DisplayUsers userList={this.props.todoList} />
               </Col>
             </Row>
           </FormGroup>

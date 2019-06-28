@@ -17,7 +17,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-#heading {
+.heading {
   font-weight: bold;
   color: palevioletred;
   text-align: center;
@@ -32,4 +32,17 @@ code {
   background-color: #d6f441;
 
   height: 100%;
+}
+#userListDiv {
+  max-height: 20%;
+  max-width: 20%;
+
+  overflow: auto;
+}
+
+.paddingToDiv {
+  padding-left: 10px !important;
+}
+.marginToRadio {
+  margin-top: 3px !important;
 }

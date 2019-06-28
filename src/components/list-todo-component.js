@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
-import { Button } from "reactstrap";
+import { Input } from "reactstrap";
 import { COMPLETED } from "../globalConstants";
 
 class EditTask extends React.Component {
@@ -66,7 +66,12 @@ class ListTodo extends Component {
         );
       });
 
-      return <ListGroup>{listOfTodo}</ListGroup>;
+      return (
+        <div>
+          <h6 className="heading">Pending tasks</h6>
+          <ListGroup>{listOfTodo}</ListGroup>{" "}
+        </div>
+      );
     }
     return <div> </div>;
   }
@@ -85,8 +90,6 @@ class ListItemTodo extends Component {
     const listItem = (
       <ListGroupItem key={this.props.index}>
         <div>
-          <span>{this.props.item.id + " "}</span>
-
           {this.state.enableTextbox === true ? (
             <EditTask
               task={this.props.item}
@@ -106,14 +109,17 @@ class ListItemTodo extends Component {
               {this.props.item.task}
             </span>
           )}
-          <span> {" " + "status: " + this.props.item.status + " "} </span>
+          <span> {" " + "Status: " + this.props.item.status + " "} </span>
         </div>
-        <Button
-          color="success"
-          onClick={() => this.props.changeToComplete(this.props.item)}
-        >
+        <div className="paddingToDiv">
+          <Input
+            className="marginToRadio"
+            type="radio"
+            color="success"
+            onClick={() => this.props.changeToComplete(this.props.item)}
+          />
           Mark as Complete
-        </Button>
+        </div>
       </ListGroupItem>
     );
 

@@ -48,7 +48,7 @@ function reducer(state = initialState.todoList, action) {
 
       return updatedTodoList;
     case VERIFY_USER:
-      const userObj = state.userList.filter(
+      const userObj = state.filter(
         user =>
           user.userName == action.payload.userName &&
           user.password == action.payload.password
