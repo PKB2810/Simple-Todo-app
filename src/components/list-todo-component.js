@@ -16,7 +16,7 @@ class EditTask extends React.Component {
 
   componentWillUnmount() {
     //console.log("inside unmount");
-    this.props.updateTodo(this.props.task, this.state.value);
+    this.props.updateTodo(this.props.task, this.state.value, this.props.todo);
   }
 
   render() {
@@ -61,6 +61,7 @@ class ListTodo extends Component {
             item={item}
             index={index}
             updateTodo={this.props.updateTodo}
+            todo={this.props.todo}
             changeToComplete={this.props.changeToComplete}
           />
         );
@@ -95,6 +96,7 @@ class ListItemTodo extends Component {
               task={this.props.item}
               updateTextbox={this.updateTextbox}
               updateTodo={this.props.updateTodo}
+              todo={this.props.todo}
               toggleTextbox={this.toggleTextbox}
             />
           ) : (
@@ -116,7 +118,9 @@ class ListItemTodo extends Component {
             className="marginToRadio"
             type="radio"
             color="success"
-            onClick={() => this.props.changeToComplete(this.props.item)}
+            onClick={() =>
+              this.props.changeToComplete(this.props.item, this.props.todo)
+            }
           />
           Mark as Complete
         </div>

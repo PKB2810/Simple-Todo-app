@@ -15,9 +15,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTodo: todo => dispatch(addTodo(todo)),
-    completedTodo: todo => dispatch(completedTodo(todo)),
-    updateTodo: (todo, updatedTask) => dispatch(updateTodo(todo, updatedTask))
+    addTodo: (todo, todoList) => dispatch(addTodo(todo, todoList)),
+    completedTodo: (todo, todoList) => dispatch(completedTodo(todo, todoList)),
+    updateTodo: (todo, updatedTask, todoList) =>
+      dispatch(updateTodo(todo, updatedTask, todoList))
   };
 };
 
@@ -40,6 +41,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
     setValue(e.target.value);
   };
   const addTask = e => {
+    //console.log(todoList);
     e.preventDefault();
     let count = localStorage.getItem("count")
       ? parseInt(localStorage.getItem("count")) + 1
@@ -52,15 +54,15 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
       status: PENDING
     };
     if (value.trim() !== "") {
-      addTodo(todo);
+      addTodo(todo, todoList);
       setValue("");
     }
   };
-  const completeTask = item => {
-    completedTodo(item);
+  const completeTask = (item, todoList) => {
+    completedTodo(item, todoList);
   };
-  const updateTask = (item, updatedtask) => {
-    updateTodo(item, updatedtask);
+  const updateTask = (item, updatedtask, todoList) => {
+    updateTodo(item, updatedtask, todoList);
   };
 
   const logout = () => {
