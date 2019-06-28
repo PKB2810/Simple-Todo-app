@@ -8,7 +8,6 @@ const regiteredUsersState = {
   userList: [
     {
       userName: "admin",
-      password: "admin",
       todoList: initialState.todoList,
       registered: true
     }
