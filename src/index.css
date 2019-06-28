@@ -46,3 +46,11 @@ code {
 .marginToRadio {
   margin-top: 3px !important;
 }
+.paddingToLogoutBtn {
+  padding-top: 10px !important;
+}
+
+.listGrpStyle {
+  max-height: 200px;
+  overflow: auto;
+}

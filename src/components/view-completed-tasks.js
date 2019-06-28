@@ -15,7 +15,7 @@ function ViewCompletedTasks({ userName, todo }) {
     return (
       <div>
         <h6 className="heading"> Completed Tasks </h6>
-        <ListGroup>
+        <ListGroup className="listGrpStyle">
           <span>{curUserComplTaskList}</span>
         </ListGroup>
       </div>

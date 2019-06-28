@@ -66,15 +66,18 @@ class ListTodo extends Component {
           />
         );
       });
-
-      return (
-        <div>
-          <h6 className="heading">Pending tasks</h6>
-          <ListGroup>{listOfTodo}</ListGroup>{" "}
-        </div>
-      );
+      if (listOfTodo.length > 0) {
+        return (
+          <div>
+            <h6 className="heading">Pending tasks</h6>
+            <ListGroup className="listGrpStyle">{listOfTodo}</ListGroup>{" "}
+          </div>
+        );
+      } else {
+        return <div> No pending tasks...enjoy!!</div>;
+      }
     }
-    return <div> </div>;
+    return <div />;
   }
 }
 
@@ -100,29 +103,27 @@ class ListItemTodo extends Component {
               toggleTextbox={this.toggleTextbox}
             />
           ) : (
-            <span
-              onClick={e => {
-                //console.log(textToggle);
-                //textToggle = !textToggle;
-                this.toggleTextbox();
-                e.stopPropagation();
-              }}
-            >
-              {this.props.item.task}
-            </span>
+            <div className="paddingToDiv">
+              <Input
+                className="marginToRadio"
+                type="radio"
+                color="success"
+                onClick={() =>
+                  this.props.changeToComplete(this.props.item, this.props.todo)
+                }
+              />
+              <span
+                onClick={e => {
+                  //console.log(textToggle);
+                  //textToggle = !textToggle;
+                  this.toggleTextbox();
+                  e.stopPropagation();
+                }}
+              >
+                {this.props.item.task}
+              </span>
+            </div>
           )}
-          <span> {" " + "Status: " + this.props.item.status + " "} </span>
-        </div>
-        <div className="paddingToDiv">
-          <Input
-            className="marginToRadio"
-            type="radio"
-            color="success"
-            onClick={() =>
-              this.props.changeToComplete(this.props.item, this.props.todo)
-            }
-          />
-          Mark as Complete
         </div>
       </ListGroupItem>
     );

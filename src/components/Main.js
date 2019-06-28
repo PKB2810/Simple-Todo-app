@@ -85,24 +85,27 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
     <div>
       <Form>
         <FormGroup>
-          <Row className="rowPadding">
-            <Col className="offset-5 col-3">
+          <Row>
+            <Col className="offset-5 col-sm-2">
               <h1 className="heading"> Todo App</h1>
             </Col>
-            <Col className="col mt-50">
-              <Button type="submit" onClick={logout}>
-                Logout{" "}
+            <Col className="paddingToLogoutBtn">
+              <Button color="primary" type="submit" onClick={logout}>
+                Logout
               </Button>
             </Col>
           </Row>
           <Row>
-            <Col className=" offset-2 col-10 col-sm-1">
+            <hr />
+          </Row>
+          <Row>
+            <Col className="col-10 offset-1 col-sm-1">
               <span className="textStlye">Todo:</span>
             </Col>
-            <Col className=" col-12 col-sm-6">
+            <Col className="col-12 col-sm-8">
               <Input value={value} onChange={textboxChangeHandler} />
             </Col>
-            <Col className="col-12 offset-xs-5 col-sm-3">
+            <Col className="col-12 col-sm-1">
               <Button
                 type="submit"
                 color="primary"
@@ -113,10 +116,11 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
               </Button>
             </Col>
           </Row>
-        </FormGroup>
-        <FormGroup>
           <Row>
-            <Col className="offset-3 col-sm-3">
+            <hr />
+          </Row>
+          <Row>
+            <Col className="col-sm-2 offset-2 col-sm-4">
               <ListTodo
                 userName={localStorage.getItem("currentUser")}
                 todo={todoList}
@@ -125,7 +129,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
                 updateTodo={updateTask}
               />
             </Col>
-            <Col className="col-sm-3">
+            <Col className="col-sm-2 col-sm-4">
               <ViewCompletedTasks
                 userName={localStorage.getItem("currentUser")}
                 todo={todoList}

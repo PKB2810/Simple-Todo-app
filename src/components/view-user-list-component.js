@@ -16,8 +16,8 @@ function DisplayUsers({ userList }) {
   if (users.length > 0) {
     return (
       <div>
-        <h1 className="heading"> Users </h1>
-        <ListGroup>{users}</ListGroup>
+        <h6 className="heading"> Users </h6>
+        <ListGroup className="listGrpStyle">{users}</ListGroup>
       </div>
     );
   }

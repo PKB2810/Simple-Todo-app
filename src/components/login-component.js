@@ -69,24 +69,27 @@ class LoginComponent extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="heading"> Todo App</h1>
         <Form>
           <FormGroup>
             <Row>
-              <Col className=" offset-2 col-12 col-sm-1">
+              <Col className="offset-5 col-sm-2">
+                <h1 className="heading"> Todo App</h1>
+              </Col>
+            </Row>
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className="col-12 offset-1 col-sm-1">
                 <span className="textStlye">UserId:</span>
               </Col>
-              <Col className=" col-12 col-sm-6">
+              <Col className=" col-12 col-sm-5">
                 <Input
                   value={this.state.userName}
                   onChange={e => this.setUserName(e)}
                 />
               </Col>
-            </Row>
-          </FormGroup>
-          <FormGroup>
-            <Row>
-              <Col className=" col-12 offset-5 pt-1">
+              <Col className=" col-12 col-sm-1 pt-1">
                 <Button
                   color="primary"
                   type="submit"
@@ -95,7 +98,11 @@ class LoginComponent extends React.Component {
                   Login
                 </Button>
               </Col>
-              <Col className=" offset-2 col-12 col-sm-8 pt-1">
+            </Row>
+          </FormGroup>
+          <FormGroup>
+            <Row>
+              <Col className=" col-12 offset-2 col-sm-5 pt-1">
                 <DisplayUsers userList={this.props.todoList} />
               </Col>
             </Row>
