@@ -36,7 +36,7 @@ function reducer(state = initialState.todoList, action) {
       const updatedTodoList = state.map(item => {
         if (
           item.id === action.payload.task.id &&
-          item.userName == action.payload.userName
+          item.userName == action.payload.task.userName //bug introduced unknowingly fixed
         ) {
           item.task = action.payload.updatedTask;
         }

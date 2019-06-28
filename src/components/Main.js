@@ -5,6 +5,7 @@ import { addTodo, completedTodo, updateTodo } from "../redux/actionCreators";
 import { PENDING } from "../globalConstants";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import ViewCompletedTasks from "./view-completed-tasks";
+import { Redirect } from "react-router-dom";
 
 const mapStateToProps = state => {
   return {
@@ -29,7 +30,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
   } */
 
   const [value, setValue] = useState(localStorage.getItem("value") || " ");
-
+  const [redirect, setRedirect] = useState(false);
   useEffect(() => {
     localStorage.setItem("value", value); //whenever value is changed store in localStorage
   }, [value]);
@@ -62,6 +63,22 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
     updateTodo(item, updatedtask);
   };
 
+  const logout = () => {
+    localStorage.setItem("currentUser", "");
+
+    setRedirect(true);
+  };
+  const redirectToLogin = () => {
+    if (redirect)
+      return (
+        <Redirect
+          to={{
+            pathname: "/login"
+          }}
+        />
+      );
+  };
+
   return (
     <div>
       <Form>
@@ -71,7 +88,9 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
               <h1 className="heading"> Todo App</h1>
             </Col>
             <Col className="col mt-50">
-              <Button type="submit">Logout </Button>
+              <Button type="submit" onClick={logout}>
+                Logout{" "}
+              </Button>
             </Col>
           </Row>
           <Row>
@@ -113,6 +132,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
           </Row>
         </FormGroup>
       </Form>
+      {redirectToLogin()}
     </div>
   );
 }
