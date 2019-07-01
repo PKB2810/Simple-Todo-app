@@ -14,6 +14,14 @@ class EditTask extends React.Component {
     this.setState({ value: e.target.value });
   };
 
+  retainOldTaskName = e => {
+    console.log(this.props.task.task);
+    this.setState({ value: this.props.task.task }, () => {
+      //since setState() is async we call toggleTexbox after value is assigned
+      this.props.toggleTextbox();
+    });
+  };
+
   componentWillUnmount() {
     //console.log("inside unmount");
     this.props.updateTodo(this.props.task, this.state.value, this.props.todo);
@@ -27,6 +35,7 @@ class EditTask extends React.Component {
         type="text"
         value={currentTaskName}
         onChange={e => this.updateTextbox(e)}
+        onBlur={e => this.retainOldTaskName(e)}
         onKeyDown={e => {
           if (e.key === "Enter") {
             if (this.state.value.trim() === "") {
@@ -109,7 +118,15 @@ class ListItemTodo extends Component {
               toggleTextbox={this.toggleTextbox}
             />
           ) : (
-            <div className="paddingToDiv">
+            <div
+              className="paddingToDiv"
+              onClick={e => {
+                e.stopPropagation();
+                //console.log(textToggle);
+                //textToggle = !textToggle;
+                this.toggleTextbox();
+              }}
+            >
               <Input
                 className="marginToRadio"
                 type="radio"
@@ -118,16 +135,7 @@ class ListItemTodo extends Component {
                   this.props.changeToComplete(this.props.item, this.props.todo)
                 }
               />
-              <span
-                onClick={e => {
-                  //console.log(textToggle);
-                  //textToggle = !textToggle;
-                  this.toggleTextbox();
-                  e.stopPropagation();
-                }}
-              >
-                {this.props.item.task}
-              </span>
+              <span>{this.props.item.task}</span>
             </div>
           )}
         </div>

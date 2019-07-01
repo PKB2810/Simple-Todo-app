@@ -2,6 +2,7 @@ import React from "react";
 import { Input, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { verifyUser } from "../redux/actionCreators";
+import AutoSuggestion from "./auto-suggestion-component";
 
 import { Redirect } from "react-router-dom";
 import DisplayUsers from "./view-user-list-component";
@@ -20,11 +21,35 @@ const mapDispatchToProps = dispatch => {
 class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userName: "", password: "", redirect: false };
+    this.setAutoSuggestion = null;
+    this.state = {
+      userName: "",
+      password: "",
+      redirect: false,
+      displayAutoSuggestionBox: false
+    };
   }
 
   setUserName = e => {
-    this.setState({ userName: e.target.value });
+    this.setState(
+      {
+        userName: e.target.value
+      },
+
+      function() {
+        if (this.setAutoSuggestion) {
+          //if already set , clear previous timeout so as to have updated userName
+          clearTimeout(this.setAutoSuggestion);
+        }
+        this.setAutoSuggestion = setTimeout(() => {
+          if (this.state.userName.trim() !== "") {
+            this.setState({ displayAutoSuggestionBox: true });
+          } else {
+            this.setState({ displayAutoSuggestionBox: false });
+          }
+        }, 500);
+      }
+    );
   };
 
   setPassword = e => {
@@ -63,7 +88,16 @@ class LoginComponent extends React.Component {
       this.setState({ redirect: true });
     } */
   };
-
+  renderAutoSuggestion = () => {
+    if (this.state.displayAutoSuggestionBox === true)
+      return (
+        <AutoSuggestion
+          searchText={this.state.userName}
+          userList={this.props.todoList}
+          validateUserOnClick={this.validateUserOnClick}
+        />
+      );
+  };
   redirectToApp = () => {
     if (this.state.redirect)
       return (
@@ -97,6 +131,7 @@ class LoginComponent extends React.Component {
                   value={this.state.userName}
                   onChange={e => this.setUserName(e)}
                 />
+                {this.renderAutoSuggestion()}
               </Col>
               <Col className=" col-12 col-sm-1 pt-1">
                 <Button

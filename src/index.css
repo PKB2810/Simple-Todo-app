@@ -54,6 +54,13 @@ code {
   max-height: 200px;
   overflow: auto;
 }
+.autoSuggestionPositioningClass {
+  position: absolute;
+  z-index: 1;
+  width: 95%;
+  border: 5px solid cornflowerblue;
+  border-radius: 10px;
+}
 
 .spanOnCursor {
   cursor: pointer;
