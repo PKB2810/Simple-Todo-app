@@ -23,13 +23,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
-  /* constructor(props) {
-    super(props);
-
-    this.addTodo = this.addTodo.bind(this);
-    this.state = { value: "" };
-  } */
-
   const [value, setValue] = useState(localStorage.getItem("value") || " ");
   const [redirect, setRedirect] = useState(false);
   useEffect(() => {
@@ -90,10 +83,27 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
             <Col className="offset-5 col-sm-2">
               <h1 className="heading"> Todo App</h1>
             </Col>
-            <Col className="paddingToLogoutBtn">
+            <Col className="paddingToLogoutBtn col-sm-2">
               <Button color="primary" type="button" onClick={logout}>
                 Logout
               </Button>
+            </Col>
+            <Col className="paddingToText">
+              <span className="textStlye">
+                {" "}
+                Current user:
+                {" " + localStorage.getItem("currentUser")}
+              </span>
+            </Col>
+          </Row>
+          <Row>
+            <hr />
+          </Row>
+          <Row>
+            <Col className="col-12 offset-6 col-sm-3">
+              <div className="textStlye">
+                Welcome {localStorage.getItem("currentUser")} !!
+              </div>
             </Col>
           </Row>
           <Row>

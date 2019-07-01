@@ -26,14 +26,16 @@ class LoginComponent extends React.Component {
       userName: "",
       password: "",
       redirect: false,
-      displayAutoSuggestionBox: false
+      displayAutoSuggestionBox: false,
+      keyPressedCount: 0,
+      keyCode: 0
     };
   }
 
   setUserName = e => {
     this.setState(
       {
-        userName: e.target.value
+        userName: e.target.value ? e.target.value : e.target.innerHTML
       },
 
       function() {
@@ -94,9 +96,18 @@ class LoginComponent extends React.Component {
         <AutoSuggestion
           searchText={this.state.userName}
           userList={this.props.todoList}
+          keyCode={this.state.keyCode}
+          keyPressedCount={this.state.keyPressedCount}
+          setUserName={this.setUserName}
           validateUserOnClick={this.validateUserOnClick}
         />
       );
+  };
+  setKeyData = e => {
+    this.setState({
+      keyCode: e.which,
+      keyPressedCount: e.which == 40 ? this.state.keyPressedCount + 1 : -1
+    });
   };
   redirectToApp = () => {
     if (this.state.redirect)
@@ -130,6 +141,7 @@ class LoginComponent extends React.Component {
                 <Input
                   value={this.state.userName}
                   onChange={e => this.setUserName(e)}
+                  onKeyDown={e => this.setKeyData(e)}
                 />
                 {this.renderAutoSuggestion()}
               </Col>

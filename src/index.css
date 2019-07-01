@@ -46,7 +46,8 @@ code {
 .marginToRadio {
   margin-top: 3px !important;
 }
-.paddingToLogoutBtn {
+.paddingToLogoutBtn,
+.paddingToText {
   padding-top: 10px !important;
 }
 
@@ -64,4 +65,7 @@ code {
 
 .spanOnCursor {
   cursor: pointer;
+}
+.listitemSelected {
+  background-color: lightblue !important;
 }

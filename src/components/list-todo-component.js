@@ -6,6 +6,7 @@ import { COMPLETED } from "../globalConstants";
 class EditTask extends React.Component {
   constructor(props) {
     super(props);
+    this.textBoxItem = React.createRef();
     this.state = { value: this.props.task.task }; //get task name from parent
   }
   updateTextbox = e => {
@@ -22,6 +23,10 @@ class EditTask extends React.Component {
     });
   };
 
+  componentDidMount() {
+    //console.log("inside unmount");
+    this.textBoxItem.current.focus();
+  }
   componentWillUnmount() {
     //console.log("inside unmount");
     this.props.updateTodo(this.props.task, this.state.value, this.props.todo);
@@ -33,6 +38,7 @@ class EditTask extends React.Component {
       <input
         id="editTextbox"
         type="text"
+        ref={this.textBoxItem}
         value={currentTaskName}
         onChange={e => this.updateTextbox(e)}
         onBlur={e => this.retainOldTaskName(e)}
@@ -107,7 +113,15 @@ class ListItemTodo extends Component {
 
   render() {
     const listItem = (
-      <ListGroupItem key={this.props.index}>
+      <ListGroupItem
+        key={this.props.index}
+        onClick={e => {
+          e.stopPropagation();
+          //console.log(textToggle);
+          //textToggle = !textToggle;
+          this.toggleTextbox();
+        }}
+      >
         <div>
           {this.state.enableTextbox === true ? (
             <EditTask
@@ -118,15 +132,7 @@ class ListItemTodo extends Component {
               toggleTextbox={this.toggleTextbox}
             />
           ) : (
-            <div
-              className="paddingToDiv"
-              onClick={e => {
-                e.stopPropagation();
-                //console.log(textToggle);
-                //textToggle = !textToggle;
-                this.toggleTextbox();
-              }}
-            >
+            <div className="paddingToDiv">
               <Input
                 className="marginToRadio"
                 type="radio"

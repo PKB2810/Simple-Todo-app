@@ -13,10 +13,11 @@ function DisplayUsers({ userList, validateUserOnClick }) {
   const users = userSet.map(user => {
     if (user !== "")
       return (
-        <ListGroupItem>
-          <span className="spanOnCursor" onClick={e => validateUserOnClick(e)}>
-            {user}
-          </span>
+        <ListGroupItem
+          className="spanOnCursor"
+          onClick={e => validateUserOnClick(e)}
+        >
+          {user}
         </ListGroupItem>
       );
   });
@@ -27,8 +28,9 @@ function DisplayUsers({ userList, validateUserOnClick }) {
         <ListGroup className="listGrpStyle">{users}</ListGroup>
       </div>
     );
+  } else {
+    return null;
   }
-  return <div />;
 }
 
 export default DisplayUsers;
