@@ -32,8 +32,18 @@ class LoginComponent extends React.Component {
   };
 
   validateUser = e => {
+    e.preventDefault();
     if (this.state.userName.trim() !== "") {
       localStorage.setItem("currentUser", this.state.userName);
+
+      this.setState({ redirect: true });
+    }
+  };
+
+  validateUserOnClick = e => {
+    e.preventDefault();
+    if (e.target.innerHTML !== "") {
+      localStorage.setItem("currentUser", e.target.innerHTML);
 
       this.setState({ redirect: true });
     }
@@ -65,7 +75,6 @@ class LoginComponent extends React.Component {
         />
       );
   };
-
   render() {
     return (
       <div>
@@ -103,7 +112,10 @@ class LoginComponent extends React.Component {
           <FormGroup>
             <Row>
               <Col className=" col-12 offset-2 col-sm-5 pt-1">
-                <DisplayUsers userList={this.props.todoList} />
+                <DisplayUsers
+                  userList={this.props.todoList}
+                  validateUserOnClick={this.validateUserOnClick}
+                />
               </Col>
             </Row>
           </FormGroup>

@@ -54,3 +54,7 @@ code {
   max-height: 200px;
   overflow: auto;
 }
+
+.spanOnCursor {
+  cursor: pointer;
+}

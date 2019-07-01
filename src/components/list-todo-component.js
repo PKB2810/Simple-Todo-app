@@ -74,7 +74,13 @@ class ListTodo extends Component {
           </div>
         );
       } else {
-        return <div> No pending tasks...enjoy!!</div>;
+        return (
+          <div>
+            {" "}
+            <h6 className="heading">Pending tasks</h6> No pending
+            tasks...enjoy!!
+          </div>
+        );
       }
     }
     return <div />;

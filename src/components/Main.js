@@ -33,8 +33,8 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
   const [value, setValue] = useState(localStorage.getItem("value") || " ");
   const [redirect, setRedirect] = useState(false);
   useEffect(() => {
-    localStorage.setItem("value", value); //whenever value is changed store in localStorage
-  }, [value]);
+    return () => setValue(""); //on unmount
+  }, []);
 
   const textboxChangeHandler = e => {
     console.log(e.target);
@@ -42,6 +42,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
   };
   const addTask = e => {
     //console.log(todoList);
+
     e.preventDefault();
     let count = localStorage.getItem("count")
       ? parseInt(localStorage.getItem("count")) + 1
@@ -65,9 +66,9 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
     updateTodo(item, updatedtask, todoList);
   };
 
-  const logout = () => {
+  const logout = e => {
+    e.preventDefault();
     localStorage.setItem("currentUser", "");
-
     setRedirect(true);
   };
   const redirectToLogin = () => {
@@ -90,7 +91,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
               <h1 className="heading"> Todo App</h1>
             </Col>
             <Col className="paddingToLogoutBtn">
-              <Button color="primary" type="submit" onClick={logout}>
+              <Button color="primary" type="button" onClick={logout}>
                 Logout
               </Button>
             </Col>
@@ -110,6 +111,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
                 type="submit"
                 color="primary"
                 onClick={e => addTask(e)}
+                onKeyDown={e => addTask(e)}
                 value="Add"
               >
                 Add

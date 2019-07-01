@@ -1,7 +1,7 @@
 import React from "react";
 import { ListGroup, ListGroupItem, Container, Row, Col } from "reactstrap";
 
-function DisplayUsers({ userList }) {
+function DisplayUsers({ userList, validateUserOnClick }) {
   const list = userList.map(user => {
     if (user.userName) {
       return user.userName;
@@ -11,7 +11,14 @@ function DisplayUsers({ userList }) {
   const userSet = Array.from(new Set(list));
   console.log("set is " + userSet);
   const users = userSet.map(user => {
-    if (user !== "") return <ListGroupItem>{user}</ListGroupItem>;
+    if (user !== "")
+      return (
+        <ListGroupItem>
+          <span className="spanOnCursor" onClick={e => validateUserOnClick(e)}>
+            {user}
+          </span>
+        </ListGroupItem>
+      );
   });
   if (users.length > 0) {
     return (
