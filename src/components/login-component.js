@@ -29,7 +29,7 @@ class LoginComponent extends React.Component {
       displayAutoSuggestionBox: false,
       keyPressedCount: 0,
       keyCode: 0,
-      currSuggInd: -1,
+      currSuggInd: 0,
       currSugg: "",
       userList: Array.from(
         new Set(
@@ -182,14 +182,14 @@ class LoginComponent extends React.Component {
   };
   setKeyData = e => {
     if (e.keyCode === 38) {
-      if (this.state.currSuggInd < 0) {
-        this.setState({ currSuggInd: this.state.userList.length - 1 });
+      if (this.state.currSuggInd === 0) {
+        return;
       }
       this.setState({ currSuggInd: this.state.currSuggInd - 1 });
     }
     if (e.keyCode === 40) {
-      if (this.state.currSuggInd >= this.state.userList.length) {
-        this.setState({ currSuggInd: 0 });
+      if (this.state.currSuggInd === this.state.userList.length - 1) {
+        return;
       }
       this.setState({ currSuggInd: this.state.currSuggInd + 1 });
     }
