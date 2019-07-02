@@ -27,7 +27,6 @@ class LoginComponent extends React.Component {
       password: "",
       redirect: false,
       displayAutoSuggestionBox: false,
-      keyPressedCount: 0,
       keyCode: 0,
       currSuggInd: 0,
       currSugg: "",
@@ -44,12 +43,6 @@ class LoginComponent extends React.Component {
     this.setState({ currSuggInd: 0 });
   }
 
-  /*  setUserNameFromAutoSuggestion = e => {
-    this.setState({
-      userName: e.target.innerHTML
-    });
-  };
- */
   setUserName = e => {
     console.log("inside setusername");
 
@@ -88,6 +81,7 @@ class LoginComponent extends React.Component {
     );
   };
 
+  //redirect to main.js
   validateUser = e => {
     e.preventDefault();
     if (this.state.userName.trim() !== "") {
@@ -97,6 +91,7 @@ class LoginComponent extends React.Component {
     }
   };
 
+  //validateUserOnClick() called to login from DisplayUserList
   validateUserOnClick = e => {
     e.preventDefault();
     if (e.target.innerHTML !== "") {
@@ -104,38 +99,12 @@ class LoginComponent extends React.Component {
 
       this.setState({ redirect: true });
     }
-    /*  e.preventDefault();
-    const userObj = {
-      userName: this.state.userName,
-      password: this.state.password
-    };
-    this.props.verifyUser(userObj);
-    if (
-      this.props.currentUser &&
-      this.props.currentUser.userName.trim() !== "" &&
-      this.props.currentUser.password.trim() !== ""
-    ) {
-      console.log(this.props.todoList);
-      console.log("user verified");
-      this.setState({ redirect: true });
-    } */
   };
+
+  //renderAutoSuggestion() renders autosuggestion listbox
   renderAutoSuggestion = () => {
     if (this.state.displayAutoSuggestionBox === true) {
       if (this.state.userName.trim() !== "") {
-        //extract those names which start with text in textbox
-        /*  const extractedUserList = this.props.todoList.filter(user =>
-          user.userName.trim().startsWith(this.state.userName)
-        );
-        //remove duplicates
-        const userSet = Array.from(
-          new Set(
-            extractedUserList.map(user => {
-              return user.userName;
-            })
-          )
-        );
- */
         const listOfUsers = this.state.userList.map((user, index) => {
           let className = "";
           if (index === this.state.currSuggInd) {
@@ -145,13 +114,10 @@ class LoginComponent extends React.Component {
             <ListGroupItem
               className={className}
               key={index}
-              onClick={
-                e => {
-                  console.log("event is" + e);
-                  this.setUserName(e);
-                }
-                /*this.props.validateUserOnClick(e)*/
-              }
+              onClick={e => {
+                console.log("event is" + e);
+                this.setUserName(e);
+              }}
             >
               {user}
             </ListGroupItem>
@@ -170,16 +136,9 @@ class LoginComponent extends React.Component {
     }
 
     return null;
-
-    /* return (
-        <AutoSuggestion
-          searchText={this.state.userName}
-          userList={this.props.todoList}
-          setUserNameFromAutoSuggestion={this.setUserNameFromAutoSuggestion}
-          currSuggInd={this.state.currSuggInd}
-        />
-      ); */
   };
+
+  //setKeyData()-sets currSuggInd , used to extract hovered or selected element inside renderAutoSuggestion()
   setKeyData = e => {
     if (e.keyCode === 38) {
       if (this.state.currSuggInd === 0) {
