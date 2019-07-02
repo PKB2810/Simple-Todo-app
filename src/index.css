@@ -69,3 +69,10 @@ code {
 .listitemSelected {
   background-color: lightblue !important;
 }
+.active-suggestion,
+.suggestionsList li:hover {
+  background-color: gray !important;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}

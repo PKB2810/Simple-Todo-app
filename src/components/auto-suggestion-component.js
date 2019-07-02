@@ -5,22 +5,18 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 class AutoSuggestion extends React.Component {
   constructor(props) {
     super(props);
-    this.focusseditem = React.createRef();
-  }
-
-  componentDidUpdate() {
-    if (this.focusseditem.current) {
-      this.focusseditem.current.focus();
-    }
-    // console.log(this.focusseditem);
-    //
+    this.state = {
+      userList: this.props.userList,
+      searchText: this.props.searchText,
+      currSuggInd: 0
+    };
   }
 
   render() {
     console.log("in auto suggestion" + this.props.userList);
     if (this.props.searchText.trim() !== "") {
       //extract those names which start with text in textbox
-      const extractedUserList = this.props.userList.filter(user =>
+      const extractedUserList = this.state.userList.filter(user =>
         user.userName.trim().startsWith(this.props.searchText)
       );
       //remove duplicates
@@ -33,45 +29,30 @@ class AutoSuggestion extends React.Component {
       );
 
       const listOfUsers = userSet.map((user, index) => {
-        //if down arrow key is used its count%length matches current item's index we highlight it
-        if (
-          this.props.keyCode === 40 &&
-          this.props.keyPressedCount % userSet.length === index
-        ) {
-          console.log("here");
-          return (
-            <ListGroupItem
-              className="listitemSelected"
-              className="spanOnCursor "
-              onClick={e => this.props.validateUserOnClick(e)}
-            >
-              {/*  <div
-                ref={this.focusseditem}
-                key={index}
-                onFocus={e => {
-                  console.log("onFocus");
-                  this.props.setUserName(e);
-                }}
-              > */}
-              {user}
-              {/* </div> */}
-            </ListGroupItem>
-          );
+        let className = "";
+        if (index === this.props.currSuggInd) {
+          className = "active-suggestion";
         }
         return (
-          <ListGroupItem key={index}>
-            <span
-              className="spanOnCursor"
-              onClick={e => this.props.validateUserOnClick(e)}
-            >
-              {user}
-            </span>
+          <ListGroupItem
+            className={className}
+            key={index}
+            onClick={
+              e => {
+                console.log("event is" + e);
+                this.props.setUserNameFromAutoSuggestion(e);
+              }
+              /*this.props.validateUserOnClick(e)*/
+            }
+          >
+            {user}
           </ListGroupItem>
         );
       });
+
       if (listOfUsers.length > 0) {
         return (
-          <ListGroup className="listGrpStyle autoSuggestionPositioningClass ">
+          <ListGroup className="listGrpStyle autoSuggestionPositioningClass suggestionsList">
             {listOfUsers}
           </ListGroup>
         );

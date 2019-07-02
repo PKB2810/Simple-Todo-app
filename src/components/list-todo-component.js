@@ -113,15 +113,7 @@ class ListItemTodo extends Component {
 
   render() {
     const listItem = (
-      <ListGroupItem
-        key={this.props.index}
-        onClick={e => {
-          e.stopPropagation();
-          //console.log(textToggle);
-          //textToggle = !textToggle;
-          this.toggleTextbox();
-        }}
-      >
+      <ListGroupItem key={this.props.index}>
         <div>
           {this.state.enableTextbox === true ? (
             <EditTask
@@ -141,7 +133,16 @@ class ListItemTodo extends Component {
                   this.props.changeToComplete(this.props.item, this.props.todo)
                 }
               />
-              <span>{this.props.item.task}</span>
+              <div
+                onClick={e => {
+                  e.stopPropagation();
+                  //console.log(textToggle);
+                  //textToggle = !textToggle;
+                  this.toggleTextbox();
+                }}
+              >
+                {this.props.item.task}
+              </div>
             </div>
           )}
         </div>

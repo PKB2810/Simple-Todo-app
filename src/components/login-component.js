@@ -2,7 +2,7 @@ import React from "react";
 import { Input, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { verifyUser } from "../redux/actionCreators";
-import AutoSuggestion from "./auto-suggestion-component";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
 import { Redirect } from "react-router-dom";
 import DisplayUsers from "./view-user-list-component";
@@ -28,17 +28,51 @@ class LoginComponent extends React.Component {
       redirect: false,
       displayAutoSuggestionBox: false,
       keyPressedCount: 0,
-      keyCode: 0
+      keyCode: 0,
+      currSuggInd: -1,
+      currSugg: "",
+      userList: Array.from(
+        new Set(
+          this.props.todoList.map(user => {
+            return user.userName;
+          })
+        )
+      )
     };
   }
+  componentWillUnmount() {
+    this.setState({ currSuggInd: 0 });
+  }
 
+  /*  setUserNameFromAutoSuggestion = e => {
+    this.setState({
+      userName: e.target.innerHTML
+    });
+  };
+ */
   setUserName = e => {
+    console.log("inside setusername");
+
+    //extract those names which start with text in textbox
+    const extractedUserList = this.props.todoList.filter(user =>
+      user.userName.trim().startsWith(e.target.value)
+    );
+    //remove duplicates
+    const userSet = Array.from(
+      new Set(
+        extractedUserList.map(user => {
+          return user.userName;
+        })
+      )
+    );
     this.setState(
       {
-        userName: e.target.value ? e.target.value : e.target.innerHTML
+        userName: e.target.value ? e.target.value : e.target.innerHTML,
+        userList: userSet
       },
 
       function() {
+        //debouncing
         if (this.setAutoSuggestion) {
           //if already set , clear previous timeout so as to have updated userName
           clearTimeout(this.setAutoSuggestion);
@@ -52,10 +86,6 @@ class LoginComponent extends React.Component {
         }, 500);
       }
     );
-  };
-
-  setPassword = e => {
-    this.setState({ password: e.target.value });
   };
 
   validateUser = e => {
@@ -91,24 +121,90 @@ class LoginComponent extends React.Component {
     } */
   };
   renderAutoSuggestion = () => {
-    if (this.state.displayAutoSuggestionBox === true)
-      return (
+    if (this.state.displayAutoSuggestionBox === true) {
+      if (this.state.userName.trim() !== "") {
+        //extract those names which start with text in textbox
+        /*  const extractedUserList = this.props.todoList.filter(user =>
+          user.userName.trim().startsWith(this.state.userName)
+        );
+        //remove duplicates
+        const userSet = Array.from(
+          new Set(
+            extractedUserList.map(user => {
+              return user.userName;
+            })
+          )
+        );
+ */
+        const listOfUsers = this.state.userList.map((user, index) => {
+          let className = "";
+          if (index === this.state.currSuggInd) {
+            className = "active-suggestion";
+          }
+          return (
+            <ListGroupItem
+              className={className}
+              key={index}
+              onClick={
+                e => {
+                  console.log("event is" + e);
+                  this.setUserName(e);
+                }
+                /*this.props.validateUserOnClick(e)*/
+              }
+            >
+              {user}
+            </ListGroupItem>
+          );
+        });
+
+        if (listOfUsers.length > 0) {
+          return (
+            <ListGroup className=" autoSuggestionPositioningClass suggestionsList">
+              {listOfUsers}
+            </ListGroup>
+          );
+        }
+        return null;
+      }
+    }
+
+    return null;
+
+    /* return (
         <AutoSuggestion
           searchText={this.state.userName}
           userList={this.props.todoList}
-          keyCode={this.state.keyCode}
-          keyPressedCount={this.state.keyPressedCount}
-          setUserName={this.setUserName}
-          validateUserOnClick={this.validateUserOnClick}
+          setUserNameFromAutoSuggestion={this.setUserNameFromAutoSuggestion}
+          currSuggInd={this.state.currSuggInd}
         />
-      );
+      ); */
   };
   setKeyData = e => {
-    this.setState({
-      keyCode: e.which,
-      keyPressedCount: e.which == 40 ? this.state.keyPressedCount + 1 : -1
-    });
+    if (e.keyCode === 38) {
+      if (this.state.currSuggInd < 0) {
+        this.setState({ currSuggInd: this.state.userList.length - 1 });
+      }
+      this.setState({ currSuggInd: this.state.currSuggInd - 1 });
+    }
+    if (e.keyCode === 40) {
+      if (this.state.currSuggInd >= this.state.userList.length) {
+        this.setState({ currSuggInd: 0 });
+      }
+      this.setState({ currSuggInd: this.state.currSuggInd + 1 });
+    }
+    if (e.keyCode === 13) {
+      this.setState({
+        currSuggInd: 0,
+        displayAutoSuggestionBox: false,
+        userName:
+          this.state.userList[this.state.currSuggInd] === undefined
+            ? e.target.value
+            : this.state.userList[this.state.currSuggInd]
+      });
+    }
   };
+
   redirectToApp = () => {
     if (this.state.redirect)
       return (
