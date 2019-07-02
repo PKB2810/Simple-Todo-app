@@ -1,8 +1,7 @@
 import React, { Component, useState } from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup, ListGroupItem, Button } from "reactstrap";
 import { Input } from "reactstrap";
 import { COMPLETED } from "../globalConstants";
-
 class EditTask extends React.Component {
   constructor(props) {
     super(props);
@@ -85,7 +84,7 @@ class ListTodo extends Component {
         return (
           <div>
             <h6 className="heading">Pending tasks</h6>
-            <ListGroup className="listGrpStyle">{listOfTodo}</ListGroup>{" "}
+            <ListGroup className="listGrpStyle">{listOfTodo}</ListGroup>
           </div>
         );
       } else {

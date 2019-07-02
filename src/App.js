@@ -10,23 +10,33 @@ import styled from "styled-components";
 import { Route, Link, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import LoginComponent from "./components/login-component";
 import regiteredUsersState from "./redux/registeredUsers";
+import MyProvider from "./MyProvider";
+import MyContext from "./MyContext";
 
 const rootReducer = combineReducers({ todoList: reducer });
 
 const store = createStore(rootReducer, regiteredUsersState);
+
 function App() {
   return (
-    <div id="parent">
-      <Provider store={store}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/app" component={Main} />
-            <Route path="/login" component={LoginComponent} />
-            <Redirect to="/login" />
-          </Switch>
-        </BrowserRouter>
-      </Provider>
-    </div>
+    <MyProvider>
+      <MyContext.Consumer>
+        {context => (
+          <div id="parent" style={{ backgroundColor: context.BGColor }}>
+            <Provider store={store}>
+              <BrowserRouter>
+                <Switch>
+                  <Route path="/app" component={Main} />
+
+                  <Route path="/login" component={LoginComponent} />
+                  <Redirect to="/login" />
+                </Switch>
+              </BrowserRouter>
+            </Provider>
+          </div>
+        )}
+      </MyContext.Consumer>
+    </MyProvider>
   );
 }
 

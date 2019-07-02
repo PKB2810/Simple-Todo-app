@@ -29,15 +29,13 @@ code {
 }
 
 #parent {
-  background-color: #d6f441;
-
   height: 100%;
 }
-#userListDiv {
+#userListDiv :hover {
   max-height: 20%;
   max-width: 20%;
 
-  overflow: auto;
+  overflow: scroll;
 }
 
 .paddingToDiv {
@@ -50,11 +48,12 @@ code {
 .paddingToText {
   padding-top: 10px !important;
 }
-
 .listGrpStyle {
-  max-height: 200px;
-  overflow: auto;
+  border: 1px solid burlywood;
+  max-height: 225px;
+  overflow: scroll;
 }
+
 .autoSuggestionPositioningClass {
   position: absolute;
   z-index: 1;

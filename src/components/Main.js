@@ -4,8 +4,11 @@ import { connect } from "react-redux";
 import { addTodo, completedTodo, updateTodo } from "../redux/actionCreators";
 import { PENDING } from "../globalConstants";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
+import { ListGroup, ListGroupItem } from "reactstrap";
 import ViewCompletedTasks from "./view-completed-tasks";
 import { Redirect } from "react-router-dom";
+
+import MyContext from "../MyContext";
 
 const mapStateToProps = state => {
   return {
@@ -80,15 +83,15 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
       <Form>
         <FormGroup>
           <Row>
-            <Col className="offset-5 col-sm-2">
+            <Col className="offset-5 col-xs-2 col-sm-2">
               <h1 className="heading"> Todo App</h1>
             </Col>
-            <Col className="paddingToLogoutBtn col-sm-2">
+            <Col className="paddingToLogoutBtn col-xs-2 col-sm-2">
               <Button color="primary" type="button" onClick={logout}>
                 Logout
               </Button>
             </Col>
-            <Col className="paddingToText">
+            <Col className="paddingToText  col-12">
               <span className="textStlye">
                 {" "}
                 Current user:
@@ -100,7 +103,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
             <hr />
           </Row>
           <Row>
-            <Col className="col-12 offset-6 col-sm-3">
+            <Col className="offset-6 col-3  col-sm-3">
               <div className="textStlye">
                 Welcome {localStorage.getItem("currentUser")} !!
               </div>
@@ -110,13 +113,13 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
             <hr />
           </Row>
           <Row>
-            <Col className="col-10 offset-1 col-sm-1">
+            <Col className="offset-1  col-xs-2 col-sm-1">
               <span className="textStlye">Todo:</span>
             </Col>
-            <Col className="col-12 col-sm-8">
+            <Col className="col-4 col-sm-8">
               <Input value={value} onChange={textboxChangeHandler} />
             </Col>
-            <Col className="col-12 col-sm-1">
+            <Col className="col-1 col-sm-1">
               <Button
                 type="submit"
                 color="primary"
@@ -132,7 +135,7 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
             <hr />
           </Row>
           <Row>
-            <Col className="col-sm-2 offset-2 col-sm-4">
+            <Col className="offset-xs-2 col-10 offset-sm-2 col-sm-4">
               <ListTodo
                 userName={localStorage.getItem("currentUser")}
                 todo={todoList}
@@ -141,11 +144,46 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
                 updateTodo={updateTask}
               />
             </Col>
-            <Col className="col-sm-2 col-sm-4">
+            <Col className=" offset-xs-2 col-10  col-sm-4">
               <ViewCompletedTasks
                 userName={localStorage.getItem("currentUser")}
                 todo={todoList}
               />
+            </Col>
+          </Row>
+          <Row>
+            <hr />
+          </Row>
+          <Row>
+            <Col className=" offset-2 col-10   col-sm-4">
+              <h6 className="textStlye"> Change backgroundcolor to: </h6>
+              <MyContext.Consumer>
+                {context => (
+                  <div>
+                    <Button
+                      color="primary"
+                      style={{ marginLeft: "2px" }}
+                      type="button"
+                      onClick={e => {
+                        context.handleBGChange(e);
+                      }}
+                    >
+                      White
+                    </Button>
+
+                    <Button
+                      color="primary"
+                      style={{ marginLeft: "2px" }}
+                      type="radio"
+                      onClick={e => {
+                        context.handleBGChange(e);
+                      }}
+                    >
+                      Yellow
+                    </Button>
+                  </div>
+                )}
+              </MyContext.Consumer>
             </Col>
           </Row>
         </FormGroup>

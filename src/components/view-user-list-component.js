@@ -1,5 +1,5 @@
 import React from "react";
-import { ListGroup, ListGroupItem, Container, Row, Col } from "reactstrap";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
 function DisplayUsers({ userList, validateUserOnClick }) {
   const list = userList.map(user => {
@@ -25,7 +25,9 @@ function DisplayUsers({ userList, validateUserOnClick }) {
     return (
       <div>
         <h6 className="heading"> Users </h6>
-        <ListGroup className="listGrpStyle">{users}</ListGroup>
+        <div className="listGrpStyle">
+          <ListGroup>{users}</ListGroup>
+        </div>
       </div>
     );
   } else {
