@@ -2,7 +2,10 @@ import React, { Component, useState } from "react";
 import { ListGroup, ListGroupItem, Button } from "reactstrap";
 import { Input } from "reactstrap";
 import { COMPLETED } from "../globalConstants";
+<<<<<<< HEAD
 import TextComponent from "./text-component";
+=======
+>>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
 class EditTask extends React.Component {
   constructor(props) {
     super(props);
@@ -84,7 +87,11 @@ class ListTodo extends Component {
       if (listOfTodo.length > 0) {
         return (
           <div>
+<<<<<<< HEAD
             <TextComponent textSize={"md"}>Pending tasks</TextComponent>
+=======
+            <h6 className="heading">Pending tasks</h6>
+>>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
             <ListGroup className="listGrpStyle">{listOfTodo}</ListGroup>
           </div>
         );
@@ -92,7 +99,11 @@ class ListTodo extends Component {
         return (
           <div>
             {" "}
+<<<<<<< HEAD
             <TextComponent textSize={"md"}>Pending tasks</TextComponent>No pending
+=======
+            <h6 className="heading">Pending tasks</h6> No pending
+>>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
             tasks...enjoy!!
           </div>
         );
@@ -141,7 +152,11 @@ class ListItemTodo extends Component {
                   this.toggleTextbox();
                 }}
               >
+<<<<<<< HEAD
                 <TextComponent textSize={"sm"}>{this.props.item.task}</TextComponent>
+=======
+                {this.props.item.task}
+>>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
               </div>
             </div>
           )}

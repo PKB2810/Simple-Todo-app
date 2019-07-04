@@ -12,11 +12,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
 }
+<<<<<<< HEAD
 h1,h3,h6{
 color:#f59e42;
 
 
 }
+=======
+>>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
