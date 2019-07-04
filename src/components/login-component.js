@@ -6,10 +6,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 
 import { Redirect } from "react-router-dom";
 import DisplayUsers from "./view-user-list-component";
-<<<<<<< HEAD
 import TextComponent from "./text-component";
-=======
->>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
 
 const mapStateToProps = state => {
   return {

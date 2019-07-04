@@ -1,8 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
 import TextComponent from "./text-component";
-=======
->>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
 import { ListGroup, ListGroupItem } from "reactstrap";
 
 function DisplayUsers({ userList, validateUserOnClick }) {
@@ -28,11 +25,7 @@ function DisplayUsers({ userList, validateUserOnClick }) {
   if (users.length > 0) {
     return (
       <div>
-<<<<<<< HEAD
         <TextComponent className="textStlye" textSize="md">Users</TextComponent>
-=======
-        <h6 className="heading"> Users </h6>
->>>>>>> 392a6f587b294a584f34d8b63d45f9b1f6fbadb6
         <div className="listGrpStyle">
           <ListGroup>{users}</ListGroup>
         </div>
