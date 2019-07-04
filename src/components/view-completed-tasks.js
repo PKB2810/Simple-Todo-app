@@ -1,5 +1,6 @@
 import React from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
+import TextComponent from "./text-component";
 import { COMPLETED } from "../globalConstants";
 
 function ViewCompletedTasks({ userName, todo }) {
@@ -8,15 +9,16 @@ function ViewCompletedTasks({ userName, todo }) {
   );
 
   const curUserComplTaskList = curUserComplTasks.map((task, index) => {
-    return <ListGroupItem key={index}>{task.task}</ListGroupItem>;
+    return <ListGroupItem key={index}> <TextComponent textSize="sm">{task.task}</TextComponent></ListGroupItem>;
   });
 
   if (curUserComplTasks.length > 0) {
     return (
       <div>
-        <h6 className="heading"> Completed Tasks </h6>
+       <TextComponent className="textStlye" textSize="md">Completed Task</TextComponent>
         <ListGroup className="listGrpStyle">
           <span>{curUserComplTaskList}</span>
+          
         </ListGroup>
       </div>
     );

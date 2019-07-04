@@ -10,10 +10,11 @@ import { Route, Link, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import regiteredUsersState from "./redux/registeredUsers";
 import MyProvider from "./MyProvider";
 import MyContext from "./MyContext";
+import HeaderComponent from "./components/header-component";
 //import LoginComponent from "./components/login-component";
 //import Main from "./components/Main";
-const Main = React.lazy(() => import("./components/Main"));
-const LoginComponent = React.lazy(() => import("./components/login-component"));
+const Main = React.lazy(() => import("./components/Main")); //lazy load components
+const LoginComponent = React.lazy(() => import("./components/login-component"));//lazy load components
 
 
 const rootReducer = combineReducers({ todoList: reducer });
@@ -26,6 +27,7 @@ function App() {
       <MyContext.Consumer>
         {context => (
           <div id="parent" style={{ backgroundColor: context.BGColor }}>
+            <HeaderComponent>Todo App</HeaderComponent>
             <Provider store={store}>
               <BrowserRouter>
               <Suspense fallback={<div>Loading...</div>}>

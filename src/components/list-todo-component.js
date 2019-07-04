@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import { ListGroup, ListGroupItem, Button } from "reactstrap";
 import { Input } from "reactstrap";
 import { COMPLETED } from "../globalConstants";
+import TextComponent from "./text-component";
 class EditTask extends React.Component {
   constructor(props) {
     super(props);
@@ -83,7 +84,7 @@ class ListTodo extends Component {
       if (listOfTodo.length > 0) {
         return (
           <div>
-            <h6 className="heading">Pending tasks</h6>
+            <TextComponent textSize={"md"}>Pending tasks</TextComponent>
             <ListGroup className="listGrpStyle">{listOfTodo}</ListGroup>
           </div>
         );
@@ -91,7 +92,7 @@ class ListTodo extends Component {
         return (
           <div>
             {" "}
-            <h6 className="heading">Pending tasks</h6> No pending
+            <TextComponent textSize={"md"}>Pending tasks</TextComponent>No pending
             tasks...enjoy!!
           </div>
         );
@@ -140,7 +141,7 @@ class ListItemTodo extends Component {
                   this.toggleTextbox();
                 }}
               >
-                {this.props.item.task}
+                <TextComponent textSize={"sm"}>{this.props.item.task}</TextComponent>
               </div>
             </div>
           )}

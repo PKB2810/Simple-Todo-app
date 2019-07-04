@@ -6,6 +6,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 
 import { Redirect } from "react-router-dom";
 import DisplayUsers from "./view-user-list-component";
+import TextComponent from "./text-component";
 
 const mapStateToProps = state => {
   return {
@@ -180,17 +181,13 @@ class LoginComponent extends React.Component {
       <div>
         <Form>
           <FormGroup>
-            <Row>
-              <Col className="offset-5 col-sm-2">
-                <h1 className="heading"> Todo App</h1>
-              </Col>
-            </Row>
+            
             <Row>
               <hr />
             </Row>
             <Row>
               <Col className="col-12 offset-1 col-sm-1">
-                <span className="textStlye">UserId:</span>
+                <TextComponent className="textStlye" textSize="md">UserId:</TextComponent>
               </Col>
               <Col className=" col-12 col-sm-5">
                 <Input
