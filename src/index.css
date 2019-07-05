@@ -36,23 +36,17 @@ code {
 #parent {
   height: 100%;
   width: 100%;
-  display:flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
+  
 }
 .headerChild{
     margin:0 auto !important;
-    flex:0;
+   
 }
 .sectionParent{
   display:flex;
   flex:2;
   flex-flow: column wrap;
   justify-content: space-between;
-}
-.sectionChild{
-  margin: auto;
-
 }
 
 .sectionChild{

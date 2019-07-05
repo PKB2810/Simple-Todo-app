@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { addTodo, completedTodo, updateTodo } from "../redux/actionCreators";
 import { PENDING } from "../globalConstants";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
-import { ListGroup, ListGroupItem } from "reactstrap";
 import TextComponent from "./text-component";
 import ViewCompletedTasks from "./view-completed-tasks";
 import { Redirect } from "react-router-dom";
@@ -26,50 +25,56 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
-  const [value, setValue] = useState(localStorage.getItem("value") || " ");
-  const [redirect, setRedirect] = useState(false);
-  useEffect(() => {
-    return () => setValue(""); //on unmount
-  }, []);
+class Main extends React.Component{
+  
+  constructor(props){
+        super(props);
+        this.state ={value :localStorage.getItem("value") || " " , redirect:false,userName:this.props.location.state.userName };
 
-  const textboxChangeHandler = e => {
+
+  }
+  
+
+  componentWillUnmount(){
+        this.setState({value:"",userName:""});
+
+  }
+
+   textboxChangeHandler = e => {
     console.log(e.target);
-    setValue(e.target.value);
+    this.setState({value:e.target.value});
   };
-  const addTask = e => {
-    //console.log(todoList);
-
+   addTask = e => {
     e.preventDefault();
     let count = localStorage.getItem("count")
       ? parseInt(localStorage.getItem("count")) + 1
       : 0;
     localStorage.setItem("count", count.toString());
     const todo = {
-      userName: localStorage.getItem("currentUser"),
+      userName:this.state.userName,//localStorage.getItem("currentUser"),
       id: count,
-      task: value,
+      task: this.state.value,
       status: PENDING
     };
-    if (value.trim() !== "") {
-      addTodo(todo, todoList);
-      setValue("");
+    if (this.state.value.trim() !== "") {
+      this.props.addTodo(todo, this.props.todoList);
+      this.setState({value:""});
     }
   };
-  const completeTask = (item, todoList) => {
-    completedTodo(item, todoList);
+   completeTask = (item, todoList) => {
+    this.props.completedTodo(item, todoList);
   };
-  const updateTask = (item, updatedtask, todoList) => {
-    updateTodo(item, updatedtask, todoList);
+   updateTask = (item, updatedtask, todoList) => {
+    this.props.updateTodo(item, updatedtask, todoList);
   };
 
-  const logout = e => {
+   logout = e => {
     e.preventDefault();
     localStorage.setItem("currentUser", "");
-    setRedirect(true);
+    this.setState({userName:"",redirect:true});
   };
-  const redirectToLogin = () => {
-    if (redirect)
+   redirectToLogin = () => {
+    if (this.state.redirect)
       return (
         <Redirect
           to={{
@@ -78,108 +83,110 @@ function Main({ userName, todoList, addTodo, completedTodo, updateTodo }) {
         />
       );
   };
-
-  return (
-    <div>
-      <Form>
-        <FormGroup>
-          <Row>
-            <Col className="paddingToLogoutBtn col-xs-2 col-sm-2">
-              <Button color="primary" type="button" onClick={logout}>
-                Logout
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <hr />
-          </Row>
-          <Row>
-            <Col className="offset-6 col-3  col-sm-3">
-              <TextComponent className="textStyle" textSize="md">  Welcome {localStorage.getItem("currentUser")} !!</TextComponent>
-            </Col>
-          </Row>
-          <Row>
-            <hr />
-          </Row>
-          <Row>
-            <Col className="offset-1  col-xs-2 col-sm-1">
-              <TextComponent className="textStyle" textSize="md">Todo:</TextComponent>
-            </Col>
-            <Col className="col-4 col-sm-8">
-              <Input value={value} onChange={textboxChangeHandler} />
-            </Col>
-            <Col className="col-1 col-sm-1">
-              <Button
-                type="submit"
-                color="primary"
-                onClick={e => addTask(e)}
-                onKeyDown={e => addTask(e)}
-                value="Add"
-              >
-                Add
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <hr />
-          </Row>
-          <Row>
-            <Col className="offset-xs-2 col-10 offset-sm-2 col-sm-4">
-              <ListTodo
-                userName={localStorage.getItem("currentUser")}
-                todo={todoList}
-                changeToComplete={completeTask}
-                textboxChangeHandler={textboxChangeHandler}
-                updateTodo={updateTask}
-              />
-            </Col>
-            <Col className=" offset-xs-2 col-10  col-sm-4">
-              <ViewCompletedTasks
-                userName={localStorage.getItem("currentUser")}
-                todo={todoList}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <hr />
-          </Row>
-          <Row>
-            <Col className=" offset-2 col-10   col-sm-4">
-              <TextComponent className="textStyle" textSize="md">Change backgroundcolor to: </TextComponent>
-              <MyContext.Consumer>
-                {context => (
-                  <div>
-                    <Button
-                      color="primary"
-                      style={{ marginLeft: "2px" }}
-                      type="button"
-                      onClick={e => {
-                        context.handleBGChange(e);
-                      }}
-                    >
-                      White
-                    </Button>
-
-                    <Button
-                      color="primary"
-                      style={{ marginLeft: "2px" }}
-                      type="radio"
-                      onClick={e => {
-                        context.handleBGChange(e);
-                      }}
-                    >
-                      Yellow
-                    </Button>
-                  </div>
-                )}
-              </MyContext.Consumer>
-            </Col>
-          </Row>
-        </FormGroup>
-      </Form>
-      {redirectToLogin()}
-    </div>
-  );
+  render(){
+    return (
+      <div>
+        <Form>
+          <FormGroup>
+            <Row>
+              <Col className="paddingToLogoutBtn col-xs-2 col-sm-2">
+                <Button color="primary" type="button" onClick={this.logout}>
+                  Logout
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className="offset-6 col-3  col-sm-3">
+                <TextComponent className="textStyle" textSize="md">  Welcome {this.state.userName} !!</TextComponent>
+              </Col>
+            </Row>
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className="offset-1  col-xs-2 col-sm-1">
+                <TextComponent className="textStyle" textSize="md">Todo:</TextComponent>
+              </Col>
+              <Col className="col-4 col-sm-8">
+                <Input value={this.state.value} onChange={this.textboxChangeHandler} />
+              </Col>
+              <Col className="col-1 col-sm-1">
+                <Button
+                  type="submit"
+                  color="primary"
+                  onClick={e => this.addTask(e)}
+                  onKeyDown={e => this.addTask(e)}
+                  value="Add"
+                >
+                  Add
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className="offset-xs-2 col-10 offset-sm-2 col-sm-4">
+                <ListTodo
+                  userName={this.state.userName}
+                  todo={this.props.todoList}
+                  changeToComplete={this.completeTask}
+                  textboxChangeHandler={this.textboxChangeHandler}
+                  updateTodo={this.updateTask}
+                />
+              </Col>
+              <Col className=" offset-xs-2 col-10  col-sm-4">
+                <ViewCompletedTasks
+                  userName={this.state.userName}
+                  todo={this.props.todoList}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className=" offset-2 col-10   col-sm-4">
+                <TextComponent className="textStyle" textSize="md">Change backgroundcolor to: </TextComponent>
+                <MyContext.Consumer>
+                  {context => (
+                    <div>
+                      <Button
+                        color="primary"
+                        style={{ marginLeft: "2px" }}
+                        type="button"
+                        onClick={e => {
+                          context.handleBGChange(e);
+                        }}
+                      >
+                        White
+                      </Button>
+  
+                      <Button
+                        color="primary"
+                        style={{ marginLeft: "2px" }}
+                        type="button"
+                        onClick={e => {
+                          context.handleBGChange(e);
+                        }}
+                      >
+                        Yellow
+                      </Button>
+                    </div>
+                  )}
+                </MyContext.Consumer>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Form>
+        {this.redirectToLogin()}
+      </div>
+    );
+  }
+  
 }
 export default connect(
   mapStateToProps,

@@ -99,9 +99,14 @@ class LoginComponent extends React.Component {
   //validateUserOnClick() called to login from DisplayUserList
   validateUserOnClick = e => {
     e.preventDefault();
+    e.persist();
     if (e.target.innerHTML !== "") {
-      localStorage.setItem("currentUser", e.target.innerHTML);
-      this.setState({ redirect: true,noUserName:false });
+      this.setState({userName: e.target.innerHTML},function(){
+        localStorage.setItem("currentUser", e.target.innerHTML);
+      
+        this.setState({ redirect: true,noUserName:false });
+      });
+     
     }else{
       this.setState({noUserName:true});
     }
@@ -176,7 +181,7 @@ class LoginComponent extends React.Component {
         <Redirect
           to={{
             pathname: "/app",
-            state: this.state.userName
+            state: {userName:this.state.userName}
           }}
         />
       );
@@ -188,10 +193,62 @@ class LoginComponent extends React.Component {
 
     }
     return (
-      <section >
-              <section >
+      
+        <div>
+        <Form>
+          <FormGroup>
+            
+            <Row>
+              <hr />
+            </Row>
+            <Row>
+              <Col className="col-12 offset-1 col-sm-1">
                 <TextComponent className="textStlye" textSize="md">UserId:</TextComponent>
-                <Input type="text"
+              </Col>
+              <Col className=" col-12 col-sm-5">
+                <Input
+                  value={this.state.userName}
+                  onChange={e => this.setUserName(e)}
+                  onKeyDown={e => this.setKeyData(e)}
+                />
+                {this.renderAutoSuggestion()}
+              </Col>
+              <Col className=" col-12 col-sm-1 pt-1">
+                <Button
+                  color="primary"
+                  type="submit"
+                  onClick={e => this.validateUser(e)}
+                >
+                 
+                    Login
+                
+                </Button>
+              </Col>
+            </Row>
+          </FormGroup>
+          <FormGroup>
+            <Row>
+              <Col className=" col-12 offset-2 col-sm-5 pt-1">
+                <DisplayUsers
+                  userList={this.props.todoList}
+                  validateUserOnClick={this.validateUserOnClick}
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+          {this.redirectToApp()}
+        </Form>
+      </div>
+
+        
+        
+        /* <section className="sectionParent">
+              <section className="sectionChild " >
+                <TextComponent className="textStlye" textSize="md">UserId:</TextComponent>
+                <Form>
+                  <section className="sectionChild">  
+                  <Input type="text"
+                   className="sectionChild"
                   value={this.state.userName}
                   onChange={e => this.setUserName(e)}
                   onKeyDown={e => this.setKeyData(e)}
@@ -199,20 +256,24 @@ class LoginComponent extends React.Component {
                 {this.renderAutoSuggestion()}
                 <Button
                   color="primary"
-                  type="button"
+                  className="sectionChild"
+                  type="submit"
                   onClick={e => this.validateUser(e)}
                 >
                   Login
                 </Button>
+                  </section>
+            
+                </Form>
               </section>
-              <section >
+              <section className="sectionChild" >
                 <DisplayUsers
                   userList={this.props.todoList}
                   validateUserOnClick={this.validateUserOnClick}
                 />
               </section>
             {this.redirectToApp()}
-      </section>
+      </section> */
     );
   }
 }

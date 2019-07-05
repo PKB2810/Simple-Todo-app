@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { ListGroup, ListGroupItem, Button } from "reactstrap";
+import React, { Component } from "react";
+import { ListGroup, ListGroupItem } from "reactstrap";
 import { Input } from "reactstrap";
 import { COMPLETED } from "../globalConstants";
 import TextComponent from "./text-component";
@@ -131,6 +131,7 @@ class ListItemTodo extends Component {
                 className="marginToRadio"
                 type="radio"
                 color="success"
+                name="pendingTasks"
                 onClick={() =>
                   this.props.changeToComplete(this.props.item, this.props.todo)
                 }
