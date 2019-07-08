@@ -222,15 +222,15 @@ class LoginComponent extends React.Component {
                 {this.renderAutoSuggestion()}
               </Col>
               <Col className=" col-12 col-sm-1 pt-1">
-                <Button
-                  color="info"
+                <button
+                  
                   type="submit"
                   onClick={e => this.validateUser(e)}
                 >
                  
                     Login
                 
-                </Button>
+                </button>
               </Col>
             </Row>
           </FormGroup>

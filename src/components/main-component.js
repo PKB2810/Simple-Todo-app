@@ -91,9 +91,9 @@ class MainComponent extends React.Component{
           <FormGroup>
             <Row>
               <Col className="paddingToLogoutBtn col-xs-2 col-sm-2">
-                <Button color="success" type="button" onClick={this.logout}>
+                <button color="info" type="button" onClick={this.logout}>
                   Logout
-                </Button>
+                </button>
               </Col>
             </Row>
             <Row>
@@ -116,7 +116,7 @@ class MainComponent extends React.Component{
                   id="todo" value={this.state.value} onChange={this.textboxChangeHandler} />
               </Col>
               <Col className="col-1 col-sm-1">
-                <Button
+                <button
                   type="submit"
                   color="info"
                   onClick={e => this.addTask(e)}
@@ -124,7 +124,7 @@ class MainComponent extends React.Component{
                   value="Add"
                 >
                   Add
-                </Button>
+                </button>
               </Col>
             </Row>
             <Row>
@@ -156,8 +156,8 @@ class MainComponent extends React.Component{
                 <MyContext.Consumer>
                   {context => (
                     <div>
-                      <Button
-                        color="success"
+                      <button
+                        
                         style={{ marginLeft: "2px" }}
                         type="button"
                         onClick={e => {
@@ -165,10 +165,10 @@ class MainComponent extends React.Component{
                         }}
                       >
                         White
-                      </Button>
+                      </button>
   
-                      <Button
-                        color="success"
+                      <button
+                        color="info"
                         style={{ marginLeft: "2px" }}
                         type="button"
                         onClick={e => {
@@ -176,7 +176,7 @@ class MainComponent extends React.Component{
                         }}
                       >
                         Yellow
-                      </Button>
+                      </button>
                     </div>
                   )}
                 </MyContext.Consumer>
