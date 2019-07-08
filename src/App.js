@@ -1,26 +1,31 @@
-import React ,{Suspense ,lazy}from "react";
-import logo from "./logo.svg";
+import React ,{Suspense }from "react";
 import "./App.css";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import registeredUsers from "./redux/registeredUsers";
-import reducer from "./redux/redux-reducer";
-import styled from "styled-components";
-import { Route, Link, BrowserRouter, Switch, Redirect } from "react-router-dom";
-import regiteredUsersState from "./redux/registeredUsers";
+import userOperationsReducer from "./redux/user-operations-reducer";
+import currentUserReducer from "./redux/current-user-reducer";
+import { Route,  BrowserRouter, Switch, Redirect } from "react-router-dom";
+import initialState from "./redux/initial-state";
 import MyProvider from "./MyProvider";
 import MyContext from "./MyContext";
 import HeaderComponent from "./components/header-component";
 import ErrorBoundary from "./components/error-boundary";
 //import LoginComponent from "./components/login-component";
 //import Main from "./components/Main";
-const Main = React.lazy(() => import("./components/Main")); //lazy load components
+const MainComponent = React.lazy(() => import("./components/main-component")); //lazy load components
 const LoginComponent = React.lazy(() => import("./components/login-component"));//lazy load components
 
 
-const rootReducer = combineReducers({ todoList: reducer });
+const rootReducer = combineReducers({
+  todoList: userOperationsReducer,
+  currentUser: currentUserReducer
+});
 
-const store = createStore(rootReducer, regiteredUsersState);
+const store = createStore(
+  rootReducer,
+  initialState
+  + window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 function App() {
   return (
@@ -33,7 +38,7 @@ function App() {
               <BrowserRouter>
               <Suspense fallback={<div>Loading...</div>}>
               <Switch>
-                  <Route path="/app" component={Main} />
+                  <Route path="/app" component={MainComponent} />
                   <Route path="/login" render={() => <ErrorBoundary>
                             <LoginComponent/>
                           </ErrorBoundary> } />

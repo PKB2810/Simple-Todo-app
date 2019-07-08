@@ -4,15 +4,12 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 
 function DisplayUsers({ userList, validateUserOnClick }) {
   const list = userList.map(user => {
-    if (user.userName) {
-      return user.userName;
-    }
-  });
+    return user.userName;
+   });
   console.log(userList);
   const userSet = Array.from(new Set(list));
   console.log("set is " + userSet);
   const users = userSet.map(user => {
-    if (user !== "")
       return (
         <ListGroupItem
           className="spanOnCursor"

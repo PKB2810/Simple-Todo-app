@@ -2,14 +2,14 @@ import {
   ADD_TODO,
   COMPLETED_TODO,
   UPDATE_TODO,
-  VERIFY_USER
-} from "./actionTypes";
+  SET_CURRENT_USER
+} from "./action-types";
 
 import { COMPLETED } from "../globalConstants";
 
 export function completedTodo(task, todoList) {
   const currentTodoList = todoList.map(item => {
-    if (item.id === task.id && item.userName == task.userName) {
+    if (item.id === task.id && item.userName === task.userName) {
       item.status = COMPLETED;
     }
     return item;
@@ -31,7 +31,7 @@ export function addTodo(task, todoList) {
 
 export function updateTodo(task, updatedTask, todoList) {
   const updatedTodoList = todoList.map(item => {
-    if (item.id === task.id && item.userName == task.userName) {
+    if (item.id === task.id && item.userName === task.userName) {
       item.task = updatedTask;
     }
     return item;
@@ -46,9 +46,10 @@ export function updateTodo(task, updatedTask, todoList) {
   };
 }
 
-export function verifyUser(userObj) {
+export function setCurrentUser(userName) {
+
   return {
-    type: VERIFY_USER,
-    payload: userObj
+    type: SET_CURRENT_USER,
+    payload: userName
   };
 }

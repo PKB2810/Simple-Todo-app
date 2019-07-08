@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ListTodo from "./list-todo-component";
 import { connect } from "react-redux";
-import { addTodo, completedTodo, updateTodo } from "../redux/actionCreators";
+import { addTodo, completedTodo, updateTodo } from "../redux/action-creators";
 import { PENDING } from "../globalConstants";
 import { Button, Form, FormGroup, Input, Row, Col } from "reactstrap";
 import TextComponent from "./text-component";
@@ -12,7 +12,8 @@ import MyContext from "../MyContext";
 
 const mapStateToProps = state => {
   return {
-    todoList: state.todoList
+    todoList: state.todoList,
+    currentUser:state.currentUser
   };
 };
 
@@ -25,11 +26,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class Main extends React.Component{
+class MainComponent extends React.Component{
   
   constructor(props){
         super(props);
-        this.state ={value :localStorage.getItem("value") || " " , redirect:false,userName:this.props.location.state.userName };
+        this.state ={value :localStorage.getItem("value") || " " , redirect:this.props.location.state===undefined ?true:false,userName:this.props.location.state===undefined?this.props.currentUser:this.props.location.state.userName };
 
 
   }
@@ -90,7 +91,7 @@ class Main extends React.Component{
           <FormGroup>
             <Row>
               <Col className="paddingToLogoutBtn col-xs-2 col-sm-2">
-                <Button color="primary" type="button" onClick={this.logout}>
+                <Button color="success" type="button" onClick={this.logout}>
                   Logout
                 </Button>
               </Col>
@@ -100,7 +101,7 @@ class Main extends React.Component{
             </Row>
             <Row>
               <Col className="offset-6 col-3  col-sm-3">
-                <TextComponent className="textStyle" textSize="md">  Welcome {this.state.userName} !!</TextComponent>
+                <TextComponent className="textStyle" textSize="md">{ "Welcome " + this.state.userName + " !!"}</TextComponent>
               </Col>
             </Row>
             <Row>
@@ -108,15 +109,16 @@ class Main extends React.Component{
             </Row>
             <Row>
               <Col className="offset-1  col-xs-2 col-sm-1">
-                <TextComponent className="textStyle" textSize="md">Todo:</TextComponent>
+                <label for="todo"><TextComponent className="textStyle" textSize="md">Todo:</TextComponent></label>
               </Col>
               <Col className="col-4 col-sm-8">
-                <Input value={this.state.value} onChange={this.textboxChangeHandler} />
+                <Input name="todo"
+                  id="todo" value={this.state.value} onChange={this.textboxChangeHandler} />
               </Col>
               <Col className="col-1 col-sm-1">
                 <Button
                   type="submit"
-                  color="primary"
+                  color="info"
                   onClick={e => this.addTask(e)}
                   onKeyDown={e => this.addTask(e)}
                   value="Add"
@@ -155,7 +157,7 @@ class Main extends React.Component{
                   {context => (
                     <div>
                       <Button
-                        color="primary"
+                        color="success"
                         style={{ marginLeft: "2px" }}
                         type="button"
                         onClick={e => {
@@ -166,7 +168,7 @@ class Main extends React.Component{
                       </Button>
   
                       <Button
-                        color="primary"
+                        color="success"
                         style={{ marginLeft: "2px" }}
                         type="button"
                         onClick={e => {
@@ -191,4 +193,4 @@ class Main extends React.Component{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Main);
+)(MainComponent);

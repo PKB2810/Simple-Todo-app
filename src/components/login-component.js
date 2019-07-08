@@ -1,22 +1,22 @@
 import React from "react";
 import { Input, Row, Col, Form, FormGroup, Button } from "reactstrap";
 import { connect } from "react-redux";
-import { verifyUser } from "../redux/actionCreators";
 import { ListGroup, ListGroupItem } from "reactstrap";
-
+import {setCurrentUser} from "../redux/action-creators";
 import { Redirect } from "react-router-dom";
 import DisplayUsers from "./view-user-list-component";
 import TextComponent from "./text-component";
 
 const mapStateToProps = state => {
   return {
-    todoList: state.todoList
+    todoList: state.todoList,
+    currentUser:state.currentUser
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    verifyUser: userObj => dispatch(verifyUser(userObj))
+    setCurrentUser : (userName) => dispatch(setCurrentUser(userName))
   };
 };
 class LoginComponent extends React.Component {
@@ -87,6 +87,7 @@ class LoginComponent extends React.Component {
   validateUser = e => {
     e.preventDefault();
     if (this.state.userName.trim() !== "") {
+      this.props.setCurrentUser(this.state.userName);
       localStorage.setItem("currentUser", this.state.userName);
 
       this.setState({ redirect: true,noUserName:false });
@@ -101,6 +102,7 @@ class LoginComponent extends React.Component {
     e.preventDefault();
     e.persist();
     if (e.target.innerHTML !== "") {
+      this.props.setCurrentUser(e.target.innerHTML);
       this.setState({userName: e.target.innerHTML},function(){
         localStorage.setItem("currentUser", e.target.innerHTML);
       
@@ -176,7 +178,9 @@ class LoginComponent extends React.Component {
   };
 
   redirectToApp = () => {
-    if (this.state.redirect)
+    if (this.state.redirect){
+
+
       return (
         <Redirect
           to={{
@@ -184,7 +188,9 @@ class LoginComponent extends React.Component {
             state: {userName:this.state.userName}
           }}
         />
-      );
+      )
+    }
+     ;
   };
   render() {
     if(this.state.noUserName){
@@ -203,19 +209,21 @@ class LoginComponent extends React.Component {
             </Row>
             <Row>
               <Col className="col-12 offset-1 col-sm-1">
-                <TextComponent className="textStlye" textSize="md">UserId:</TextComponent>
+                <label for="userId"><TextComponent className="textStlye" textSize="md">UserId:</TextComponent></label>
               </Col>
               <Col className=" col-12 col-sm-5">
                 <Input
                   value={this.state.userName}
                   onChange={e => this.setUserName(e)}
                   onKeyDown={e => this.setKeyData(e)}
+                  name="userId"
+                  id="userId"
                 />
                 {this.renderAutoSuggestion()}
               </Col>
               <Col className=" col-12 col-sm-1 pt-1">
                 <Button
-                  color="primary"
+                  color="info"
                   type="submit"
                   onClick={e => this.validateUser(e)}
                 >
@@ -241,39 +249,6 @@ class LoginComponent extends React.Component {
       </div>
 
         
-        
-        /* <section className="sectionParent">
-              <section className="sectionChild " >
-                <TextComponent className="textStlye" textSize="md">UserId:</TextComponent>
-                <Form>
-                  <section className="sectionChild">  
-                  <Input type="text"
-                   className="sectionChild"
-                  value={this.state.userName}
-                  onChange={e => this.setUserName(e)}
-                  onKeyDown={e => this.setKeyData(e)}
-                />
-                {this.renderAutoSuggestion()}
-                <Button
-                  color="primary"
-                  className="sectionChild"
-                  type="submit"
-                  onClick={e => this.validateUser(e)}
-                >
-                  Login
-                </Button>
-                  </section>
-            
-                </Form>
-              </section>
-              <section className="sectionChild" >
-                <DisplayUsers
-                  userList={this.props.todoList}
-                  validateUserOnClick={this.validateUserOnClick}
-                />
-              </section>
-            {this.redirectToApp()}
-      </section> */
     );
   }
 }

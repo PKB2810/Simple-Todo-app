@@ -1,4 +1,6 @@
-const initialState = {
+const initialState = {currentUser: {
+  userName: null
+},
   todoList:
     localStorage.getItem("todoList") === null ||
     localStorage.getItem("todoList") === ""
