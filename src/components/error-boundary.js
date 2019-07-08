@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
+import {Redirect,withRouter} from "react-router-dom";
 import {Button} from "reactstrap";
 import TextComponent from './text-component';
 class ErrorBoundary extends React.Component {
@@ -8,9 +8,22 @@ class ErrorBoundary extends React.Component {
       this.state = { error: null, errorInfo: null ,redirect:false};
     }
     
+    componentDidMount(){
+        this.props.history.listen((location,action) => {
+          if (this.state.hasError) {
+            this.setState({
+              hasError: false,
+              redirect:false
+            });
+          }
+        });
+
+    }
+
     componentDidCatch(error, errorInfo) {
      
       this.setState({
+        hasError: true,
         error: error,
         errorInfo: errorInfo
       })
@@ -35,7 +48,7 @@ class ErrorBoundary extends React.Component {
     }
     
     render() {
-      if (this.state.errorInfo) {
+      if (this.state.hasError) {
      
         return (
           <section className="sectionChild">
@@ -64,4 +77,4 @@ class ErrorBoundary extends React.Component {
     }  
   }
 
-  export default ErrorBoundary;
+  export default withRouter(ErrorBoundary);
